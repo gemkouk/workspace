@@ -10,7 +10,7 @@
       font-family: sans-serif;
     }
     #intro-wrapper {
-      background: url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+      background: url('https://source.unsplash.com/1600x900/?university,finance,math') no-repeat center center/cover;
       height: 100vh;
       display: flex;
       justify-content: center;
@@ -18,7 +18,6 @@
       text-align: center;
       padding: 1rem;
     }
-
     .intro-content {
       background: rgba(0, 30, 60, 0.75);
       padding: 2rem;
@@ -28,30 +27,25 @@
       animation: fadeIn 1.5s ease forwards;
       opacity: 0;
     }
-
     .logo {
-      width: 120px;
+      width: 100px;
       margin-bottom: 1.5rem;
     }
-
     h1 {
       font-size: 1.8rem;
       min-height: 2.5rem;
     }
-
     p {
       font-size: 1rem;
       margin: 1.5rem 0 2rem;
       line-height: 1.5;
     }
-
     .language-buttons {
       display: flex;
       justify-content: center;
       gap: 1rem;
       flex-wrap: wrap;
     }
-
     .enter-btn {
       padding: 0.8rem 1.6rem;
       background-color: #0057a0;
@@ -61,19 +55,16 @@
       font-weight: bold;
       transition: background 0.3s;
     }
-
     .enter-btn:hover {
       background-color: #003f72;
     }
-
     @keyframes fadeIn {
       to { opacity: 1; }
     }
-
     @media (max-width: 768px) {
       h1 { font-size: 1.5rem; }
       p { font-size: 0.9rem; }
-      .logo { width: 90px; }
+      .logo { width: 80px; }
       .language-buttons {
         flex-direction: column;
       }
@@ -86,23 +77,19 @@
 <body>
   <div id="intro-wrapper">
     <div class="intro-content">
-      <img src="https://www.aegean.gr/sites/default/files/logo_gr_aegean_university.png" alt="Πανεπιστήμιο Αιγαίου" class="logo">
-
+      <img src="logo.png" alt="Πανεπιστήμιο Αιγαίου" class="logo">
       <h1><span id="typing-gr"></span></h1>
       <h1><span id="typing-en"></span></h1>
-
       <p>
         Τμήμα Στατιστικής και Αναλογιστικών – Χρηματοοικονομικών Μαθηματικών<br>
         Department of Statistics and Actuarial – Financial Mathematics
       </p>
-
       <div class="language-buttons">
         <a href="index.php?Itemid=101" class="enter-btn" id="btn-gr">Είσοδος / Greek</a>
         <a href="index.php?Itemid=102" class="enter-btn" id="btn-en">Enter / English</a>
       </div>
-
-      <audio id="intro-audio" autoplay>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_bec95b0c83.mp3?filename=gentle-ambient-11085.mp3" type="audio/mpeg">
+      <audio id="intro-audio">
+        <source src="https://cdn.pixabay.com/audio/2023/03/02/audio_6cfb5c5cd1.mp3" type="audio/mpeg">
       </audio>
     </div>
   </div>
@@ -132,18 +119,28 @@
     const audio = document.getElementById("intro-audio");
     audio.volume = 0;
     let vol = 0;
-    const fadeAudioIn = setInterval(() => {
-      if (vol < 1) {
-        vol += 0.02;
-        audio.volume = vol;
-      } else {
-        clearInterval(fadeAudioIn);
-      }
-    }, 150);
+    const fadeAudioIn = () => {
+      const interval = setInterval(() => {
+        if (vol < 1) {
+          vol += 0.02;
+          audio.volume = vol;
+        } else {
+          clearInterval(interval);
+        }
+      }, 150);
+    };
 
     let userInteracted = false;
-    document.getElementById("btn-gr").addEventListener("click", () => userInteracted = true);
-    document.getElementById("btn-en").addEventListener("click", () => userInteracted = true);
+    document.getElementById("btn-gr").addEventListener("click", () => {
+      userInteracted = true;
+      audio.play();
+      fadeAudioIn();
+    });
+    document.getElementById("btn-en").addEventListener("click", () => {
+      userInteracted = true;
+      audio.play();
+      fadeAudioIn();
+    });
 
     setTimeout(() => {
       if (!userInteracted) {
@@ -156,7 +153,7 @@
           window.location.href = "index.php?Itemid=101";
         }
       }
-    }, 7000);
+    }, 10000);
   </script>
 </body>
 </html>
