@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Intro Page</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+    #intro-wrapper {
+      background: url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .intro-content {
+      background: rgba(0, 30, 60, 0.75);
+      padding: 2rem;
+      border-radius: 12px;
+      color: #fff;
+      max-width: 900px;
+      animation: fadeIn 1.5s ease forwards;
+      opacity: 0;
+    }
+
+    .logo {
+      width: 120px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      min-height: 2.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      margin: 1.5rem 0 2rem;
+      line-height: 1.5;
+    }
+
+    .language-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .enter-btn {
+      padding: 0.8rem 1.6rem;
+      background-color: #0057a0;
+      color: #fff;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .enter-btn:hover {
+      background-color: #003f72;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.5rem; }
+      p { font-size: 0.9rem; }
+      .logo { width: 90px; }
+      .language-buttons {
+        flex-direction: column;
+      }
+      .enter-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="intro-wrapper">
+    <div class="intro-content">
+      <img src="https://www.aegean.gr/sites/default/files/logo_gr_aegean_university.png" alt="Πανεπιστήμιο Αιγαίου" class="logo">
+
+      <h1><span id="typing-gr"></span></h1>
+      <h1><span id="typing-en"></span></h1>
+
+      <p>
+        Τμήμα Στατιστικής και Αναλογιστικών – Χρηματοοικονομικών Μαθηματικών<br>
+        Department of Statistics and Actuarial – Financial Mathematics
+      </p>
+
+      <div class="language-buttons">
+        <a href="index.php?Itemid=101" class="enter-btn" id="btn-gr">Είσοδος / Greek</a>
+        <a href="index.php?Itemid=102" class="enter-btn" id="btn-en">Enter / English</a>
+      </div>
+
+      <audio id="intro-audio" autoplay>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_bec95b0c83.mp3?filename=gentle-ambient-11085.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <script>
+    function typeText(elementId, text, speed, callback) {
+      let i = 0;
+      const el = document.getElementById(elementId);
+      function type() {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else if (callback) {
+          callback();
+        }
+      }
+      type();
+    }
+
+    typeText("typing-gr", "Πρόγραμμα Μεταπτυχιακών Σπουδών", 60, function() {
+      setTimeout(() => {
+        typeText("typing-en", "Master’s Degree Programme", 60);
+      }, 500);
+    });
+
+    const audio = document.getElementById("intro-audio");
+    audio.volume = 0;
+    let vol = 0;
+    const fadeAudioIn = setInterval(() => {
+      if (vol < 1) {
+        vol += 0.02;
+        audio.volume = vol;
+      } else {
+        clearInterval(fadeAudioIn);
+      }
+    }, 150);
+
+    let userInteracted = false;
+    document.getElementById("btn-gr").addEventListener("click", () => userInteracted = true);
+    document.getElementById("btn-en").addEventListener("click", () => userInteracted = true);
+
+    setTimeout(() => {
+      if (!userInteracted) {
+        const lang = navigator.language || navigator.userLanguage;
+        if (lang.startsWith('el')) {
+          window.location.href = "index.php?Itemid=101";
+        } else if (lang.startsWith('en')) {
+          window.location.href = "index.php?Itemid=102";
+        } else {
+          window.location.href = "index.php?Itemid=101";
+        }
+      }
+    }, 7000);
+  </script>
+</body>
+</html>
